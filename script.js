@@ -50,3 +50,33 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
         })
     }
 });
+
+// Menu Fade Animation
+
+const handleHover = function(e, opacity){
+    if(e.target.classList.contains('nav__link')){
+        const link = e.target;
+        const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+        const logo = link.closest('.nav').querySelector('img');
+
+        siblings.forEach(el => {
+            if(el !== link) el.style.opacity = opacity;
+        });
+        logo.style.opacity = opacity;
+    }
+};
+
+nav.addEventListener('mouseover', function (e) {
+    handleHover(e, 0.5);
+});
+nav.addEventListener('mouseout', function (e) {
+    handleHover(e, 1);
+});
+
+// Sticky navigation
+const initialCoords = section1.getBoundingClientRect();
+
+window.addEventListener('scroll', function () {
+    if(window.scrollY > initialCoords.top) nav.classList.add('sticky');
+    else nav.classList.remove('sticky')
+});
