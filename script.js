@@ -148,7 +148,7 @@ const slider = function () {
 
   const createDots = function () {
     slides.forEach(function(_, i){
-        dotContainer.insertAdjacentElement(
+        dotContainer.insertAdjacentHTML(
             'beforeend',
             `<button class="dots__dot" data-slide="${i}"></button>`
         );
@@ -191,16 +191,32 @@ const prevSlide = function () {
       curSlide--;
     }
     goToSlide(curSlide);
-    activateDot(curSlide);
+    activeDot(curSlide);
   };
 
   const init = function () {
     goToSlide(0);
     createDots();
 
-    activateDot(0);
+    activeDot(0);
   };
   init();
+  // Event handlers
+  btnRight.addEventListener('click', nextSlide);
+  btnLeft.addEventListener('click', prevSlide);
 
-  
-}
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') prevSlide();
+    e.key === 'ArrowRight' && nextSlide();
+  });
+
+  dotContainer.addEventListener('click', function (e) {
+    if (e.target.classList.contains('dots__dot')) {
+      const { slide } = e.target.dataset;
+      goToSlide(slide);
+      activeDot(slide);
+    }
+  });
+
+};
+slider();
